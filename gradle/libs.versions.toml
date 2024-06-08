@@ -11,6 +11,9 @@ junit = "4.13.2"
 junitVersion = "1.1.5"
 kotlin = "1.9.23"
 kotlinxCoroutines = "1.8.0"
+kotlinxCoroutinesTest = "1.5.2"
+kotlinxSerializationJson = "1.6.3"
+kotlinxSerializationPlugin = "1.9.23"
 lifecycleRuntimeKtx = "2.8.1"
 mockk = "1.12.1"
 navigationCompose = "2.7.7"
@@ -40,10 +43,14 @@ androidx-test-core = {group="androidx.test", name="core", version.ref="androidxT
 androidx-test-runner = {group="androidx.test", name="runner", version.ref="androidxTest"}
 androidx-test-rules = {group="androidx.test", name="rules", version.ref="androidxTest"}
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 mockk = {group="io.mockk", name="mockk", version.ref="mockk"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-kotlin-serialization = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref="kotlinxSerializationPlugin"}
 

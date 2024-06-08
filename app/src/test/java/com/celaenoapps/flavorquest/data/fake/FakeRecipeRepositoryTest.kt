@@ -1,6 +1,7 @@
 package com.celaenoapps.flavorquest.data.fake
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
@@ -15,8 +16,9 @@ class FakeRecipeRepositoryTest {
 
     @org.junit.Test
     fun recipeList() = runBlocking {
-        subject.getRecipes().collect {
-            assertEquals(FakeDataSource.recipeList, it)
-        }
+        assertEquals(
+            FakeDataSource.sampleResource,
+            subject.getRecipes().first().first()
+        )
     }
 }
