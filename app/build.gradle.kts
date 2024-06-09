@@ -2,7 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    id("jacoco")
 }
+val jacocoTestReport = tasks.create("jacocoTestReport")
 
 android {
     namespace = "com.celaenoapps.flavorquest"
@@ -55,6 +57,41 @@ android {
             isIncludeAndroidResources = true
         }
     }
+
+    androidComponents {
+        val coverageExclusion = listOf(
+            // Android
+            "**/R.class",
+            "**/R\$*.class",
+            "**/BuildConfig.*",
+            "**/Manifest*.*"
+        )
+
+        onVariants(selector = selector().all()) { variant ->
+            val testTaskName = "test${variant.name.capitalize()}UnitTest"
+            val reportTask = tasks.register(
+                name = "jacoco${testTaskName.capitalize()}Report",
+                type = JacocoReport::class,
+            ) {
+                dependsOn(testTaskName)
+                reports {
+                    html.required.set(true)
+                }
+
+                classDirectories.setFrom(
+                    fileTree(baseDir = "$buildDir/tmp/kotlin-classes/${variant.name}") {
+                        exclude(coverageExclusion)
+                    }
+                )
+
+                sourceDirectories.setFrom(
+                    files("$projectDir/src/main/java", "$projectDir/src/main/kotlin")
+                )
+                executionData.setFrom(file("$buildDir/jacoco/${testTaskName}.exec"))
+            }
+            jacocoTestReport.dependsOn(reportTask)
+        }
+    }
 }
 
 dependencies {
@@ -93,4 +130,16 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+jacoco {
+    toolVersion = libs.versions.jacoco.get()
+}
+
+tasks.withType(Test::class.java) {
+    jacoco {
+        setExcludes(
+            listOf("jdk.internal.*")
+        )
+    }
 }
