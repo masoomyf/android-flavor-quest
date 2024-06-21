@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.jetbrains.kotlin.serialization)
     id("jacoco")
+    id("kotlin-kapt")
+    alias(libs.plugins.hilt.android)
 }
 val jacocoTestReport = tasks.create("jacocoTestReport")
 
@@ -114,6 +116,9 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation( libs.androidx.compose.runtime)
     implementation( libs.androidx.compose.runtime.livedata)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
