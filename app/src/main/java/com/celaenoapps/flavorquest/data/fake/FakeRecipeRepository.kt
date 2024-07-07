@@ -2,27 +2,29 @@ package com.celaenoapps.flavorquest.data.fake
 
 import com.celaenoapps.flavorquest.data.RecipeModel
 import com.celaenoapps.flavorquest.data.RecipeRepository
-import kotlinx.coroutines.CoroutineDispatcher
+import com.celaenoapps.flavorquest.di.FqDispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
 /**
  * [RecipeRepository] implementation that provides static recipes resources to aid development
  */
-class FakeRecipeRepository(
-    private val dispatcher: CoroutineDispatcher
+class FakeRecipeRepository @Inject constructor(
+    private val dispatcher: FqDispatchers,
+    private val networkJson: Json
 ): RecipeRepository {
-    private val deserializer = Json { ignoreUnknownKeys = true}
-
     override fun getRecipes(): Flow<List<RecipeModel>> {
         return flow {
+            // Perform fake delay.
+            kotlinx.coroutines.delay(1000)
             emit(
-                deserializer.decodeFromString<ResourceData>(FakeDataSource.data).resources
+                networkJson.decodeFromString<ResourceData>(FakeDataSource.data).resources
             )
-        }.flowOn(dispatcher)
+        }.flowOn(dispatcher.io)
     }
 }
 

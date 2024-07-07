@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.celaenoapps.flavorquest.ui.home.HomeRoute
 
 @Composable
 fun FqNavGraph(
@@ -17,7 +18,7 @@ fun FqNavGraph(
 ) {
     NavHost(navController = navHostController, startDestination = startDestination) {
         composable(FqDestinations.HOME_ROUTE) {
-            Text(text = "Home Screen", modifier = modifier.testTag("HomeScreen"))
+            HomeRoute(modifier = modifier.testTag("HomeScreen"))
         }
 
         composable(FqDestinations.CATEGORY_ROUTE) {

@@ -93,4 +93,13 @@ object FakeDataSource {
   ]
 }
     """.trimIndent()
+
+    @Language("json")
+    val homepageData = """
+{
+"trending": [
+  
+]
+}
+    """.trimIndent()
 }
